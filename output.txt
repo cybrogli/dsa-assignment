@@ -1,0 +1,76 @@
+=== (a) BST CONSTRUCTION ===
+Input order: A102 A25 A7 B100 B12 A120 B3 A45 
+
+TRACE TABLE (insertion)
+| St | Key   | Path (key compared, direction)             | Placed as              |
+|----|-------|--------------------------------------------|------------------------|
+|  1 | A102  | (empty tree)                               | root                   |
+|  2 | A25   | A102(R)                                    | right child of A102  |
+|  3 | A7    | A102(R) A25(R)                             | right child of A25   |
+|  4 | B100  | A102(R) A25(R) A7(R)                       | right child of A7    |
+|  5 | B12   | A102(R) A25(R) A7(R) B100(R)               | right child of B100  |
+|  6 | A120  | A102(R) A25(L)                             | left  child of A25   |
+|  7 | B3    | A102(R) A25(R) A7(R) B100(R) B12(R)        | right child of B12   |
+|  8 | A45   | A102(R) A25(R) A7(L)                       | left  child of A7    |
+
+Inorder traversal: A102 A120 A25 A45 A7 B100 B12 B3 
+
+Tree (rotated 90 deg, root at left, right subtree on top):
+                              B3
+                        B12
+                  B100
+            A7
+                  A45
+      A25
+            A120
+A102
+
+Node table (inorder):
+| Node  | Depth | Left  | Right |
+|-------|-------|-------|-------|
+| A102  |     0 | -     | A25   |
+| A120  |     2 | -     | -     |
+| A25   |     1 | A120  | A7    |
+| A45   |     3 | -     | -     |
+| A7    |     2 | A45   | B100  |
+| B100  |     3 | -     | B12   |
+| B12   |     4 | -     | B3    |
+| B3    |     5 | -     | -     |
+
+Nodes = 8, Height = 5 edges (6 levels), minimum possible height = 3 edges
+
+=== (b) BST SEARCH vs LINEAR SEARCH ===
+| Key   | BST comps | Linear comps | Found |
+|-------|-----------|--------------|-------|
+| A102  |         1 |            1 | yes   |
+| A25   |         2 |            2 | yes   |
+| A7    |         3 |            3 | yes   |
+| B100  |         4 |            4 | yes   |
+| B12   |         5 |            5 | yes   |
+| A120  |         3 |            6 | yes   |
+| B3    |         6 |            7 | yes   |
+| A45   |         4 |            8 | yes   |
+| A999  |         4 |            8 | no    |
+| B1    |         4 |            8 | no    |
+| C50   |         6 |            8 | no    |
+
+Average (successful): BST = 3.50, Linear = 4.50
+Average (unsuccessful): BST = 4.67, Linear = 8.00
+Total (successful, 8 keys): BST = 28, Linear = 36
+
+=== (c) INSERTION ORDER AND KEY LENGTH ===
+| Scenario                           |    n | Height | Avg BST   | Avg Lin   | Avg chars  |
+|------------------------------------|------|--------|-----------|-----------|------------|
+| Given order                        |    8 |      5 |      3.50 |      4.50 |       8.25 |
+| Sorted ascending (worst case)      |    8 |      7 |      4.50 |      4.50 |       9.50 |
+| Sorted descending (worst case)     |    8 |      7 |      4.50 |      4.50 |       9.50 |
+| Median-first (best case)           |    8 |      3 |      2.62 |      4.50 |       7.12 |
+| Variable length A+digits (given)   |    8 |      4 |      3.00 |      4.50 |       8.88 |
+| Fixed length A+3 digits, same order |    8 |      3 |      2.88 |      4.50 |      10.00 |
+| Fixed length A+10 digits, same order |    8 |      3 |      2.88 |      4.50 |      30.12 |
+| Random order, n=1000 (avg of 20)   | 1000 |   21.4 |     11.91 |    500.50 |      59.56 |
+| Sorted order, n=1000 (degenerate)  | 1000 |    999 |    500.50 |    500.50 |    2059.00 |
+|   (max random height seen: 27; ideal ~ log2(n) = 10.0)
+| Random order, n=4000 (avg of 20)   | 4000 |   26.0 |     14.61 |   2000.50 |      67.67 |
+| Sorted order, n=4000 (degenerate)  | 4000 |   3999 |   2000.50 |   2000.50 |    6559.00 |
+|   (max random height seen: 29; ideal ~ log2(n) = 12.0)
