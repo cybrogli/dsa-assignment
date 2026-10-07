@@ -159,14 +159,3 @@ With character comparisons included, multiply each by O(L) for key length L.
 
 ---
 
-## Upload to GitHub
-```bash
-cd q11
-git init
-git add bst.c input.txt output.txt README.md
-git commit -m "Q11: BST vs linear search"
-git branch -M main
-git remote add origin https://github.com/<your-username>/<repo-name>.git
-git push -u origin main
-```
-Submit the repository URL.
